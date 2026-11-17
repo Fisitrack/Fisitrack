@@ -17,3 +17,13 @@ class PacienteService:
                 detail="Ya existe un paciente registrado con ese documento"
             )
         return self.repo.create(data)
+
+    def consultar_paciente(self, id_paciente: int) -> Paciente:
+        # Regla: si el paciente no existe, responde 404
+        paciente = self.repo.get_by_id(id_paciente)
+        if not paciente:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Paciente no encontrado"
+            )
+        return paciente

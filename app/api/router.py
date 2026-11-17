@@ -24,3 +24,15 @@ def registrar_paciente(data: PacienteCreate):
         },
         "success": True
     }
+
+
+
+# HU-002: Consultar paciente
+@router.get("/{id_paciente}", status_code=status.HTTP_200_OK)
+def consultar_paciente(id_paciente: int):
+    paciente = service.consultar_paciente(id_paciente)
+    return {
+        "mensaje": "Consulta exitosa",
+        "data": paciente.model_dump(),
+        "success": True
+    }
