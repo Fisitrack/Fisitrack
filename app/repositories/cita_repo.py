@@ -1,4 +1,4 @@
-from typing import Optional, List
+﻿from typing import Optional, List
 from datetime import datetime
 from app.domain.models import Cita, CitaCreate
 
@@ -21,7 +21,7 @@ class CitaRepository:
         return None
 
     def create(self, data: CitaCreate) -> Cita:
-        cita = Cita(idCita=self._next_id, estado="pendiente", **data.model_dump())
+        cita = Cita(idCita=self._next_id, estado="agendada", **data.model_dump())
         self._db[self._next_id] = cita
         self._next_id += 1
         return cita
