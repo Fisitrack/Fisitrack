@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.pacientes.registrar_paciente_api import router as registrar_paciente_router
 from app.api.pacientes.consultar_paciente_api import router as consultar_paciente_router
+from app.api.citas.crear_cita_api import router as crear_cita_router
 
 
 app = FastAPI(
@@ -15,6 +16,7 @@ app = FastAPI(
 # Registra los endpoints de pacientes
 app.include_router(registrar_paciente_router)
 app.include_router(consultar_paciente_router)
+app.include_router(crear_cita_router)
 
 @app.get("/health")
 def health():

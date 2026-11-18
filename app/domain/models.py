@@ -23,3 +23,19 @@ class Paciente(PacienteBase):
 
     class Config:
         from_attributes = True
+
+
+
+# ── HU-009: Citas ──
+from datetime import datetime
+
+
+class CitaCreate(BaseModel):
+    idPaciente: int
+    idFisioterapeuta: int
+    fechaHora: datetime
+
+
+class Cita(CitaCreate):
+    idCita: int
+    estado: str = "pendiente"
