@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+﻿from pydantic import BaseModel, Field
 from datetime import date
 
 
@@ -38,4 +38,4 @@ class CitaCreate(BaseModel):
 
 class Cita(CitaCreate):
     idCita: int
-    estado: str = "pendiente"
+    estado: str = "agendada"

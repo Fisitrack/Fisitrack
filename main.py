@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+﻿from fastapi import FastAPI, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
@@ -30,7 +30,7 @@ def error_validacion(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=400,
         content={
-            "mensaje": "Datos incompletos o con formato inválido",
+            "mensaje": "Fecha y hora no válidas. Use formato AAAA-MM-DDTHH:MM:SS y una fecha futura" if request.url.path.startswith("/api/v1/citas") else "Datos incompletos o con formato inválido",
             "data": None,
             "success": False
         }

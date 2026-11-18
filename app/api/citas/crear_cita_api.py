@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+﻿from fastapi import APIRouter, status
 
 from app.domain.models import CitaCreate
 from app.core.dependencias import cita_service
@@ -13,9 +13,9 @@ router = APIRouter(prefix="/api/v1/citas", tags=["Citas"])
     responses={
         201: {"description": "Cita creada", "content": {"application/json": {"example": {
             "mensaje": "Cita creada exitosamente",
-            "data": {"idCita": 501, "estado": "pendiente"}, "success": True}}}},
+            "data": {"idCita": 501, "estado": "agendada"}, "success": True}}}},
         400: {"description": "Datos incompletos", "content": {"application/json": {"example": {
-            "mensaje": "Datos incompletos o con formato inválido", "data": None, "success": False}}}},
+            "mensaje": "Fecha y hora no válidas. Use formato AAAA-MM-DDTHH:MM:SS y una fecha futura", "data": None, "success": False}}}},
         404: {"description": "Paciente no existe", "content": {"application/json": {"example": {
             "mensaje": "Paciente no encontrado", "data": None, "success": False}}}},
         409: {"description": "Horario ocupado", "content": {"application/json": {"example": {
