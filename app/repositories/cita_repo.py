@@ -25,3 +25,19 @@ class CitaRepository:
         self._db[self._next_id] = cita
         self._next_id += 1
         return cita
+
+    def filtrar(self, id_paciente=None, id_fisio=None, estado=None,
+                fecha_desde=None, fecha_hasta=None) -> List[Cita]:
+        # Devuelve solo las citas que cumplen los filtros enviados
+        citas = list(self._db.values())
+        if id_paciente is not None:
+            citas = [c for c in citas if c.idPaciente == id_paciente]
+        if id_fisio is not None:
+            citas = [c for c in citas if c.idFisioterapeuta == id_fisio]
+        if estado is not None:
+            citas = [c for c in citas if c.estado == estado]
+        if fecha_desde is not None:
+            citas = [c for c in citas if c.fechaHora.date() >= fecha_desde]
+        if fecha_hasta is not None:
+            citas = [c for c in citas if c.fechaHora.date() <= fecha_hasta]
+        return citas

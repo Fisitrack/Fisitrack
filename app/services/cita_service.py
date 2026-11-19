@@ -35,3 +35,33 @@ class CitaService:
                                 detail="El horario seleccionado no está disponible")
 
         return self.cita_repo.create(data)
+    
+    def consultar_citas(self, id_paciente=None, id_fisio=None, estado=None,
+                        fecha_desde=None, fecha_hasta=None):
+        # Regla 1: el estado debe ser uno de los válidos
+        estados_validos = ["agendada", "confirmada", "cancelada", "atendida"]
+        if estado is not None and estado not in estados_validos:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail="Estado no válido. Use: agendada, confirmada, cancelada o atendida")
+
+        # Regla 2: las fechas deben tener formato YYYY-MM-DD
+        try:
+            desde = datetime.strptime(fecha_desde, "%Y-%m-%d").date() if fecha_desde else None
+            hasta = datetime.strptime(fecha_hasta, "%Y-%m-%d").date() if fecha_hasta else None
+        except ValueError:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail="Fecha no válida. Use el formato YYYY-MM-DD")
+
+        citas = self.cita_repo.filtrar(id_paciente, id_fisio, estado, desde, hasta)
+        resultado = []
+        for c in citas:
+            paciente = self.paciente_repo.get_by_id(c.idPaciente)
+            resultado.append({
+                "idCita": c.idCita,
+                "idPaciente": c.idPaciente,
+                "nombrePaciente": paciente.nombre if paciente else None,
+                "idFisioterapeuta": c.idFisioterapeuta,
+                "fechaHora": c.fechaHora.isoformat(),
+                "estado": c.estado,
+            })
+        return resultado
