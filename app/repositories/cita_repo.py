@@ -41,3 +41,14 @@ class CitaRepository:
         if fecha_hasta is not None:
             citas = [c for c in citas if c.fechaHora.date() <= fecha_hasta]
         return citas
+
+    
+    def get_by_id(self, id_cita: int) -> Optional[Cita]:
+        # Busca una cita por su id
+        return self._db.get(id_cita)
+
+    def actualizar_fecha(self, id_cita: int, nueva_fecha: datetime) -> Cita:
+        # Cambia la fecha y hora de la cita (el horario anterior queda libre)
+        cita = self._db[id_cita]
+        cita.fechaHora = nueva_fecha
+        return cita

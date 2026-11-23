@@ -27,9 +27,10 @@ def consultar_citas(
     estado: Optional[str] = Query(None),
     fecha_desde: Optional[str] = Query(None, description="YYYY-MM-DD"),
     fecha_hasta: Optional[str] = Query(None, description="YYYY-MM-DD"),
+    documento: Optional[str] = Query(None, description="Cédula del paciente"),
 ):
     data = cita_service.consultar_citas(idPaciente, idFisioterapeuta, estado,
-                                        fecha_desde, fecha_hasta)
+                                        fecha_desde, fecha_hasta, documento)
     return {
         "mensaje": "Consulta de citas exitosa" if data else "No se encontraron citas",
         "data": data,
