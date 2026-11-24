@@ -8,6 +8,7 @@ from app.api.citas.crear_cita_api import router as crear_cita_router
 from app.api.citas.consultar_citas_api import router as consultar_cita_router
 from app.api.citas.reprogramar_cita_api import router as reprogramar_cita_router
 from app.api.citas.cancelar_cita_api import router as cancelar_cita_router
+from app.api.horarios.registrar_horario_api import router as registrar_horario_router
 
 
 
@@ -24,6 +25,7 @@ app.include_router(crear_cita_router)
 app.include_router(consultar_cita_router)
 app.include_router(reprogramar_cita_router)
 app.include_router(cancelar_cita_router)
+app.include_router(registrar_horario_router)
 
 
 @app.get("/health")
@@ -35,13 +37,16 @@ def health():
 # Datos incompletos o con formato inválido -> 400 (como pide la HU-001)
 @app.exception_handler(RequestValidationError)
 def error_validacion(request: Request, exc: RequestValidationError):
+    ruta = request.url.path
+    if ruta.startswith("/api/v1/citas"):
+        mensaje = "Fecha y hora no válidas. Use formato AAAA-MM-DDTHH:MM:SS y una fecha futura"
+    elif ruta.startswith("/api/v1/horarios"):
+        mensaje = "Formato inválido. Use fecha AAAA-MM-DD y hora HH:MM"
+    else:
+        mensaje = "Datos incompletos o con formato inválido"
     return JSONResponse(
         status_code=400,
-        content={
-            "mensaje": "Fecha y hora no válidas. Use formato AAAA-MM-DDTHH:MM:SS y una fecha futura" if request.url.path.startswith("/api/v1/citas") else "Datos incompletos o con formato inválido",
-            "data": None,
-            "success": False
-        }
+        content={"mensaje": mensaje, "data": None, "success": False}
     )
 
 
