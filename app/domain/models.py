@@ -51,3 +51,19 @@ class CitaReprogramar(BaseModel):
 # ── HU-012: Cancelar cita ──
 class CitaCancelar(BaseModel):
     motivo: str | None = None
+
+
+
+# ── HU-013: Registrar horario disponible ──
+from datetime import time
+
+
+class BloqueHorario(BaseModel):
+    fecha: date
+    hora_inicio: time
+    hora_fin: time
+
+
+class HorarioCreate(BaseModel):
+    idFisioterapeuta: int
+    bloques: list[BloqueHorario]

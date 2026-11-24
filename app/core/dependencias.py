@@ -9,3 +9,10 @@ paciente_service = PacienteService(repo)
 
 cita_repo = CitaRepository()
 cita_service = CitaService(cita_repo, repo)
+
+
+from app.repositories.horario_repo import HorarioRepository
+from app.services.horario_service import HorarioService
+
+horario_repo = HorarioRepository()
+horario_service = HorarioService(horario_repo)
