@@ -67,3 +67,22 @@ class BloqueHorario(BaseModel):
 class HorarioCreate(BaseModel):
     idFisioterapeuta: int
     bloques: list[BloqueHorario]
+
+
+
+# ── HU-016: Registrar rutina en el catálogo ──
+class Ejercicio(BaseModel):
+    nombre: str
+    series: int
+    repeticiones: int
+
+
+class RutinaCreate(BaseModel):
+    nombre: str
+    ejercicios: list[Ejercicio]
+    duracion_minutos: int
+    tipo: str
+
+
+class Rutina(RutinaCreate):
+    idRutina: int    
