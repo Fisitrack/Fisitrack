@@ -39,8 +39,15 @@ class CitaCreate(BaseModel):
 class Cita(CitaCreate):
     idCita: int
     estado: str = "agendada"
+    motivo: str | None = None
 
 
 # ── HU-011: Reprogramar cita ──
 class CitaReprogramar(BaseModel):
     fechaHora: datetime    
+
+
+
+# ── HU-012: Cancelar cita ──
+class CitaCancelar(BaseModel):
+    motivo: str | None = None
