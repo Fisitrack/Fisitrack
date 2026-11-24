@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import HTTPException, status
 
-from app.domain.models import Cita, CitaCreate, CitaReprogramar
+from app.domain.models import Cita, CitaCreate, CitaReprogramar, CitaCancelar
 from app.repositories.cita_repo import CitaRepository
 from app.repositories.paciente_repo import PacienteRepository
 
@@ -45,7 +45,7 @@ class CitaService:
                 return []
             id_paciente = paciente.idPaciente
 
-        # Regla 1: el estado debe ser uno de los válidos
+        # Regla 1: el estado debe ser uno de los válidosñ
         estados_validos = ["agendada", "confirmada", "cancelada", "atendida"]
         if estado is not None and estado not in estados_validos:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
@@ -98,3 +98,23 @@ class CitaService:
                                 detail="El nuevo horario no está disponible")
 
         return self.cita_repo.actualizar_fecha(id_cita, data.fechaHora)
+
+    
+    def cancelar_cita(self, id_cita: int, data: CitaCancelar) -> Cita:
+        # Regla 1: el motivo es obligatorio
+        if not data.motivo or not data.motivo.strip():
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail="El motivo de cancelación es obligatorio")
+
+        # Regla 2: la cita debe existir
+        cita = self.cita_repo.get_by_id(id_cita)
+        if not cita:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                detail="Cita no encontrada")
+
+        # Regla 3: solo se cancela si está agendada o confirmada
+        if cita.estado not in ["agendada", "confirmada"]:
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                                detail="La cita no puede cancelarse en su estado actual")
+
+        return self.cita_repo.cancelar(id_cita, data.motivo.strip())

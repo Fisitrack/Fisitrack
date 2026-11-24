@@ -16,8 +16,8 @@ class CitaRepository:
     def get_by_fisioterapeuta_y_hora(self, id_fisio: int, fecha_hora: datetime) -> Optional[Cita]:
         # Busca si el fisioterapeuta ya tiene una cita a esa hora
         for cita in self._db.values():
-            if cita.idFisioterapeuta == id_fisio and cita.fechaHora == fecha_hora:
-                return cita
+         if cita.idFisioterapeuta == id_fisio and cita.fechaHora == fecha_hora and cita.estado != "cancelada":
+                 return cita
         return None
 
     def create(self, data: CitaCreate) -> Cita:
@@ -51,4 +51,12 @@ class CitaRepository:
         # Cambia la fecha y hora de la cita (el horario anterior queda libre)
         cita = self._db[id_cita]
         cita.fechaHora = nueva_fecha
+        return cita
+
+    
+    def cancelar(self, id_cita: int, motivo: str) -> Cita:
+        # Cambia el estado a cancelada y guarda el motivo (no borra la cita)
+        cita = self._db[id_cita]
+        cita.estado = "cancelada"
+        cita.motivo = motivo
         return cita
