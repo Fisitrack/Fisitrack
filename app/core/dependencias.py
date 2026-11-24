@@ -16,3 +16,10 @@ from app.services.horario_service import HorarioService
 
 horario_repo = HorarioRepository()
 horario_service = HorarioService(horario_repo)
+
+
+from app.repositories.rutina_repo import RutinaRepository
+from app.services.rutina_service import RutinaService
+
+rutina_repo = RutinaRepository()
+rutina_service = RutinaService(rutina_repo)
