@@ -21,3 +21,6 @@ class RutinaRepository:
         self._db[self._next_id] = rutina
         self._next_id += 1
         return rutina
+    
+    def get_by_id(self, id_rutina: int) -> Optional[Rutina]:
+        return self._db.get(id_rutina)

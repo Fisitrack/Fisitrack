@@ -10,6 +10,7 @@ from app.api.citas.reprogramar_cita_api import router as reprogramar_cita_router
 from app.api.citas.cancelar_cita_api import router as cancelar_cita_router
 from app.api.horarios.registrar_horario_api import router as registrar_horario_router
 from app.api.rutinas.registrar_rutina_api import router as registrar_rutina_router
+from app.api.tratamientos.asignar_rutina_api import router as asignar_rutina_router
 
 
 
@@ -28,6 +29,7 @@ app.include_router(reprogramar_cita_router)
 app.include_router(cancelar_cita_router)
 app.include_router(registrar_horario_router)
 app.include_router(registrar_rutina_router)
+app.include_router(asignar_rutina_router)
 
 
 @app.get("/health")

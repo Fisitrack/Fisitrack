@@ -23,3 +23,12 @@ from app.services.rutina_service import RutinaService
 
 rutina_repo = RutinaRepository()
 rutina_service = RutinaService(rutina_repo)
+
+
+from app.repositories.tratamiento_repo import TratamientoRepository
+from app.repositories.asignacion_repo import AsignacionRepository
+from app.services.asignacion_service import AsignacionService
+
+tratamiento_repo = TratamientoRepository()
+asignacion_repo = AsignacionRepository()
+asignacion_service = AsignacionService(asignacion_repo, rutina_repo, tratamiento_repo)
