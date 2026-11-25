@@ -85,4 +85,25 @@ class RutinaCreate(BaseModel):
 
 
 class Rutina(RutinaCreate):
-    idRutina: int    
+    idRutina: int
+
+
+
+# ── HU-020: Asignar rutina a un tratamiento ──
+class Tratamiento(BaseModel):
+    idTratamiento: int
+    idPaciente: int
+    diagnostico: str
+    contraindicaciones: list[str]
+
+
+class AsignacionCreate(BaseModel):
+    idRutina: int
+    intensidad: str
+    restricciones: str | None = None
+
+
+class Asignacion(AsignacionCreate):
+    idAsignacion: int
+    idTratamiento: int
+    estado: str = "vigente"        
